@@ -29,7 +29,6 @@ function Search() {
 
   const [isFetching, setFetching] = useState(false);
   
- 
 
 
   const handleClose = (event, reason) => {
@@ -57,7 +56,7 @@ function Search() {
           setexrate(rate.toPrecision(3));
           setinfo(true);
           setFetching(false);
-          
+         
         });
     } else {
       setinfo(false);
