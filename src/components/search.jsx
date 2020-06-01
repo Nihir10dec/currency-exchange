@@ -9,7 +9,7 @@ import {Typography} from '@material-ui/core'
 import { CircularProgress } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-// import SwapVertRoundedIcon from "@material-ui/icons/SwapVertRounded";
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled"  {...props} />;
 }
