@@ -1,6 +1,6 @@
 import React from 'react'
-import AppBar from '@material-ui/core/Appbar'
-import { Toolbar,Typography } from '@material-ui/core';
+
+import { Toolbar,Typography,AppBar } from '@material-ui/core';
 
 function footer() {
     return (
