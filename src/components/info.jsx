@@ -16,7 +16,7 @@ function info({ value, from, rate, to }) {
       >
         1 {from.code} = {rate} {to.code}
       </Typography>
-      <Typography variant="h4">
+      <Typography variant="h5">
         {Number(value).toLocaleString("en-IN")}{" "}
         {from.code +
           " = " +
