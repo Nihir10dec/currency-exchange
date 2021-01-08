@@ -9,15 +9,14 @@ function footer() {
     palette: {
       primary: blue,
     },
-  })
-  
-  ;
+  });
+  const today =  new Date().getFullYear();
     return (
       <ThemeProvider theme={theme}>
         <AppBar position="static" >
         <Toolbar>
         <Typography variant="button" align="justify" style={{margin:'auto'}} gutterBottom>
-        Developed by <strong><a href="https://www.linkedin.com/in/nihir-shah/" style={{color:'white', textDecoration:'None'}}>Nihir Shah</a></strong>
+        Developed by <strong><a href="https://www.linkedin.com/in/nihir-shah/" style={{color:'white', textDecoration:'None'}}>Nihir Shah</a></strong>  © {{ today }}
       </Typography>
         </Toolbar>
       </AppBar>
