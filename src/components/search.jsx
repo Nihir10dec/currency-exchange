@@ -5,10 +5,12 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 import currencyList from "../list";
-import {Typography} from '@material-ui/core'
+import {ThemeProvider , createMuiTheme} from '@material-ui/core'
 import { CircularProgress } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import SwapVerticalCircleRoundedIcon from '@material-ui/icons/SwapVerticalCircleRounded';
+import { deepOrange } from '@material-ui/core/colors';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled"  {...props} />;
@@ -19,8 +21,12 @@ function Search() {
     code: "",
     name: "",
   };
+  const fromstart = {
+    code: "INR",
+    name: "Indian Rupee",
+  };
   const [open, setOpen] = React.useState(false);
-  const [from, setfrom] = useState(initial);
+  const [from, setfrom] = useState(fromstart);
   const [to, setTo] = useState(initial);
   const [exrate, setexrate] = useState("");
   const [value, setvalue] = useState(1);
@@ -29,8 +35,6 @@ function Search() {
 
   const [isFetching, setFetching] = useState(false);
   
-
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -39,11 +43,11 @@ function Search() {
     setOpen(false);
   };
 
-  function handleGetExchange() {
-    
+  function handleGetExchange(f,t) {
+    // console.log(to,from);
     if (from.code.length > 0 && to.code.length > 0) {
       setFetching(true);
-      let url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${from.code}&to_currency=${to.code}&apikey=SFM1VEYBLERUKAGV`;
+      let url = `https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${f}&to_currency=${t}&apikey=SFM1VEYBLERUKAGV`;
       console.log(url);
       fetch(url)
         .then((data) => {
@@ -94,12 +98,22 @@ function Search() {
       setTo(currency);
     }
   }
-  // function handleSwap(){
-  //  let t=''
-  //  t=from;
-  //  setfrom(to)
-  //  setTo(t) 
-  // }
+  function handleSwap(){
+   setinfo(false);
+   let t=''
+   t=from;
+  //  console.log(t,from);  
+   
+   handleGetExchange(to.code,from.code); 
+   setfrom(to)
+   setTo(t)
+  }
+  const theme = createMuiTheme({
+    palette: {
+      primary:deepOrange,
+      secondary: deepOrange,
+    },
+  });
   return (
     <div
       style={{
@@ -109,10 +123,11 @@ function Search() {
         margin: "auto",
       }}
     >
-      <Typography variant="body1" style={{padding:'1rem',color:'grey'}}>
+      {/* <Typography variant="body1" style={{padding:'1rem',color:'grey'}}>
         Welcome to CUREX, where you can find real time exchange rates for various currencies. <br/>
         
-      </Typography>
+      </Typography> */}
+      <ThemeProvider theme={theme}>
       <TextField
         id="standard-basic"
         style={{ width: 300, margin: "30px auto" }}
@@ -124,25 +139,24 @@ function Search() {
          
         }}
       />
-      <label style={{ margin: "auto" }}>Select Currencies</label>
+      {/* <label style={{ margin: "auto" }}>Select Currencies</label> */}
       <Autocomplete
         id="select-from"
         options={currencyList}
         getOptionLabel={(option) => option.name}
         style={{ width: 300, margin: "30px auto",fontSize:'small' }}
         onChange={(e,newValue) => {
-          handleFrom(e);
-          
-          
+          handleFrom(e);                  
         }}
-        
+        value={from}
         renderInput={(params) => (
-          <TextField {...params} label="Convert From"  variant="outlined" />
+          <TextField {...params} label="Convert From"  variant="outlined" color="secondary" />
         )}
       />
-      {/* <SwapVertRoundedIcon
+      
+      <SwapVerticalCircleRoundedIcon
         onClick={handleSwap}
-        color="primary"
+        color="secondary"
         style={{
           margin: "auto",
           fontSize: "2.5rem",
@@ -150,7 +164,8 @@ function Search() {
           border: "1px solid grey",
           borderRadius: "50%",
         }}
-      ></SwapVertRoundedIcon> */}
+      ></SwapVerticalCircleRoundedIcon>
+      
       <Autocomplete
         id="select-to"
         
@@ -160,19 +175,21 @@ function Search() {
         onChange={(e) => {
           handleTo(e);
         }}
+        value={to}
         renderInput={(params) => (
-          <TextField {...params} label="Convert To" variant="outlined" />
+          <TextField {...params} label="Convert To" variant="outlined" color="secondary" />
         )}
       />
-
+      
       <Button
         variant="contained"
-        onClick={handleGetExchange}
+        onClick={() => handleGetExchange(from.code,to.code)}
         style={{ margin: "auto" }}
-        color="primary"
+        color="secondary"
       >
         Get Exchange Rate
       </Button>
+      
       <CircularProgress
         style={{ margin: "20px auto", display: isFetching ? "block" : "none" }}
       />
@@ -181,6 +198,7 @@ function Search() {
           Please Select To,From Currencies
         </Alert>
       </Snackbar>
+      </ThemeProvider>
       {info && value > 0 && from.name.length > 0 && to.name.length > 0
         ? data()
         : null}
