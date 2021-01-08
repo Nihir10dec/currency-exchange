@@ -1,3 +1,7 @@
+# Curreny Exchange Rates
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8a5b1067-3194-4ddf-beb7-84e47e618412/deploy-status)](https://app.netlify.com/sites/currencyexchangerates/deploys)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
